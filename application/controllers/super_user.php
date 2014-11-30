@@ -101,7 +101,8 @@ class Super_User extends CI_Controller
     {
         $this->load->database('db2', TRUE);
         $data=array();
-        $user_id=$this->session->userdata('user_id');
+        $user_id=$this->session->userdata('user_email_address');
+
         $data['user_info']=$this->super_user_model->view_user_profile_info($user_id);
         $data['user_maincontent']=$this->load->view('user/edit_profile_form',$data,true);
         $this->load->view('user/user_master',$data);

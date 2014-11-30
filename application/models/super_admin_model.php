@@ -9,6 +9,8 @@
 
             $this->db->insert('product', $data);
 
+            $master_product_id = $this->db->insert_id();
+
             unset($data["product_name"]);
             unset($data["product_code"]);
             unset($data["product_price"]);
@@ -19,6 +21,7 @@
 
             $this->load->database('db3', TRUE);
 
+            $data["master_product_id"] = $master_product_id;
             $this->db->insert('product', $data);
         }
         public function select_all_product()

@@ -30,19 +30,35 @@
             $this->db->delete('product');
         }
 
-        public function view_user_profile_info($user_id)
+        public function view_user_profile_info($user_email_address)
         {
-            $this->db->select('*');
-            $this->db->from('user');
-            $this->db->where('user_id',$user_id);
-            $query_result = $this->db->get();
-            $result = $query_result->row();
+            $this->load->database('db2', TRUE);
+
+            $result = $this->getUserEmail($user_email_address);
+
+            if(!$result){
+                $this->load->database('db3', TRUE);
+                $result = $this->getUserEmail($user_email_address);
+                $this->load->database('db2', TRUE);
+            }
             return $result;
         }
         public function update_user_profile_info($data,$user_id)
         {
             $this->db->where('user_id',$user_id);
             $this->db->update('user',$data);
+        }
+
+        private function getUserEmail($user_email_address)
+        {
+            $this->db->select('*');
+            $this->db->from('user');
+            $this->db->where('user_email_address',$user_email_address);
+            $query_result = $this->db->get();
+            $result = $query_result->row();
+
+            return $result;
+
         }
 
     }

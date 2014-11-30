@@ -10,8 +10,9 @@ class User_Login extends CI_Controller{
         parent::__construct();
         $this->load->model('user_login_model');
 
+        $user_email_address=$this->session->userdata('user_email_address');
         $user_id=$this->session->userdata('user_id');
-        if($user_id !=NULL)
+        if($user_id !=NULL && $user_email_address)
         {
            redirect("super_user","refresh"); 
         }
@@ -28,8 +29,10 @@ class User_Login extends CI_Controller{
         $sdata=array();
         if($result)
         {
+
             $sdata['user_name']=$result->user_name;//blogger_id/user_id see here by riasat
             $sdata['user_id']=$result->user_id;
+            $sdata['user_email_address']=$result->user_email_address; //fix here, to set user email in session
             $sdata['login_status']=TRUE;
             $this->session->set_userdata($sdata);
             redirect('super_user');
